@@ -22,6 +22,10 @@ try {
 const dataDir = resolve(appRoot, "data");
 mkdirSync(dataDir, { recursive: true });
 
+/** SQLite `localtime` and Node Date formatting follow this zone. */
+const timezone = process.env.TZ || process.env.APP_TIMEZONE || "Asia/Bangkok";
+process.env.TZ = timezone;
+
 function databaseUrl() {
   const raw = process.env.DATABASE_URL ?? `file:${resolve(dataDir, "smarthome.db")}`;
   if (!raw.startsWith("file:")) return raw;
@@ -33,6 +37,7 @@ function databaseUrl() {
 export const env = {
   port: Number(process.env.PORT ?? 3001),
   databaseUrl: databaseUrl(),
+  timezone,
   redisUrl: process.env.REDIS_URL || "redis://127.0.0.1:6379",
   webOrigin: process.env.WEB_ORIGIN ?? "http://localhost:3000",
   cookieSecure: process.env.COOKIE_SECURE === "true",

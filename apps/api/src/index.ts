@@ -39,5 +39,6 @@ const app = createApp();
 
 serve({ fetch: app.fetch, port: env.port }, (info) => {
   console.log(`Auzy API listening on http://localhost:${info.port}`);
+  console.log(`Timezone             ${env.timezone}`);
   console.log(`Scalar docs           http://localhost:${info.port}/scalar`);
 });

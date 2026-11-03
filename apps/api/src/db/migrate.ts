@@ -8,6 +8,8 @@ function columnNames(rows: Array<Record<string, unknown>>) {
 }
 
 export async function migrate() {
+  // Confirm connection uses process TZ (Asia/Bangkok by default via env.ts).
+  await sqlite.execute("SELECT datetime('now', 'localtime')");
   await sqlite.execute("PRAGMA foreign_keys = ON;");
   await sqlite.executeMultiple(`
     CREATE TABLE IF NOT EXISTS users (
