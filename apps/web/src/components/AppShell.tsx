@@ -1,11 +1,12 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Cpu, House, LayoutDashboard, LogOut, Plus } from "lucide-react";
 import { useEffect } from "react";
-import { useSignOut } from "@/hooks/use-auth";
-import { useMeQuery } from "@/hooks/use-home";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSignOut } from "@/hooks/use-auth";
+import { useMeQuery } from "@/hooks/use-home";
 
 const links = [
   { to: "/", label: "Overview", icon: LayoutDashboard } as const,
@@ -36,11 +37,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-7xl gap-8 px-4 py-6 md:px-8">
-      <aside className="sticky top-6 hidden h-[calc(100vh-3rem)] w-56 shrink-0 flex-col rounded-[28px] border border-white/5 bg-card/80 p-5 md:flex">
-        <Link to="/" className="font-display text-3xl tracking-tight">
-          Auzy
-        </Link>
-        <p className="mt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Home hub</p>
+      <aside className="sticky top-6 hidden h-[calc(100vh-3rem)] w-56 shrink-0 flex-col rounded-[28px] border border-border bg-card/80 p-5 md:flex">
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <Link to="/" className="font-display text-3xl tracking-tight">
+              Auzy
+            </Link>
+            <p className="mt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Home hub</p>
+          </div>
+          <ThemeToggle />
+        </div>
         <nav className="mt-10 flex flex-col gap-1">
           {links.map((link) => {
             const active = pathname === link.to || (link.to !== "/" && pathname.startsWith(link.to));
@@ -80,13 +86,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </aside>
       <div className="min-w-0 flex-1 pb-16">
         <header className="mb-6 md:hidden">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <Link to="/" className="font-display text-2xl">
               Auzy
             </Link>
-            <Button variant="link" className="text-primary" asChild>
-              <Link to="/devices/new">Register</Link>
-            </Button>
+            <div className="flex items-center gap-1">
+              <ThemeToggle />
+              <Button variant="link" className="text-primary" asChild>
+                <Link to="/devices/new">Register</Link>
+              </Button>
+            </div>
           </div>
           <nav className="mt-4 flex gap-2">
             {links.map((link) => {

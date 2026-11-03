@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { AlertCircle } from "lucide-react";
 import { FormEvent, useState } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,7 +21,10 @@ export function RegisterPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md items-center px-6">
+    <main className="relative mx-auto flex min-h-screen max-w-md items-center px-6">
+      <div className="absolute top-6 right-6">
+        <ThemeToggle />
+      </div>
       <Card className="w-full">
         <CardHeader>
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">Auzy</p>

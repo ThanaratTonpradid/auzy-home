@@ -159,7 +159,7 @@ export function NewDevicePage() {
               </Button>
             </CardContent>
           </Card>
-          <pre className="overflow-x-auto rounded-[28px] border border-white/5 bg-ink-950 p-5 font-mono text-xs leading-6 text-mist-300">
+          <pre className="overflow-x-auto rounded-[28px] border border-border bg-ink-950 p-5 font-mono text-xs leading-6 text-mist-300">
             {firmwareSketch(created.type, created.apiKey ?? "PASTE_DEVICE_API_KEY")}
           </pre>
         </section>

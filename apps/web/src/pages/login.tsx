@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { AlertCircle } from "lucide-react";
 import { FormEvent, useState } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,7 +20,10 @@ export function LoginPage() {
   }
 
   return (
-    <main className="mx-auto grid min-h-screen max-w-6xl items-center gap-12 px-6 py-16 lg:grid-cols-[1.1fr_0.9fr]">
+    <main className="relative mx-auto grid min-h-screen max-w-6xl items-center gap-12 px-6 py-16 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="absolute top-6 right-6">
+        <ThemeToggle />
+      </div>
       <section>
         <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">Auzy home hub</p>
         <h1 className="mt-4 max-w-xl font-display text-6xl leading-[0.95] tracking-tight">
