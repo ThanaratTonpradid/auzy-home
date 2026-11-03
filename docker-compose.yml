@@ -1,0 +1,23 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    ports:
+      - "5540:5540"
+    environment:
+      RI_REDIS_HOST: redis
+      RI_REDIS_PORT: "6379"
+      RI_REDIS_ALIAS: auzy
+      RI_ACCEPT_TERMS_AND_CONDITIONS: "true"
+    depends_on:
+      - redis
+    volumes:
+      - redis-insight:/data
+
+volumes:
+  redis-insight:

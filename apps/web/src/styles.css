@@ -1,0 +1,134 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-display);
+  --font-display: var(--font-display);
+  --color-ink-950: #07090d;
+  --color-ink-900: #0c1118;
+  --color-ink-800: #121a24;
+  --color-ink-700: #1a2533;
+  --color-ink-600: #243140;
+  --color-mist-100: #eef3f8;
+  --color-mist-300: #b7c4d4;
+  --color-mist-500: #7d8ea3;
+  --color-mint-400: #5ee0b5;
+  --color-mint-500: #2ee59d;
+  --color-ember-400: #ffb45a;
+  --color-azure-400: #7aa2ff;
+  --shadow-glow: 0 0 80px rgba(46, 229, 157, 0.12);
+}
+
+:root {
+  color-scheme: dark;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --background: #07090d;
+  --foreground: #eef3f8;
+  --card: #121a24;
+  --card-foreground: #eef3f8;
+  --popover: #121a24;
+  --popover-foreground: #eef3f8;
+  --primary: #2ee59d;
+  --primary-foreground: #07090d;
+  --secondary: #1a2533;
+  --secondary-foreground: #eef3f8;
+  --muted: #1a2533;
+  --muted-foreground: #7d8ea3;
+  --accent: #1a2533;
+  --accent-foreground: #5ee0b5;
+  --destructive: #ffb45a;
+  --border: rgb(255 255 255 / 10%);
+  --input: rgb(255 255 255 / 12%);
+  --ring: #2ee59d;
+  --chart-1: #2ee59d;
+  --chart-2: #7aa2ff;
+  --chart-3: #5ee0b5;
+  --chart-4: #ffb45a;
+  --chart-5: #b7c4d4;
+  --radius: 1.15rem;
+  --sidebar: #121a24;
+  --sidebar-foreground: #eef3f8;
+  --sidebar-primary: #2ee59d;
+  --sidebar-primary-foreground: #07090d;
+  --sidebar-accent: #1a2533;
+  --sidebar-accent-foreground: #5ee0b5;
+  --sidebar-border: rgb(255 255 255 / 8%);
+  --sidebar-ring: #2ee59d;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: #243140 transparent;
+  }
+
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  body {
+    color: var(--foreground);
+    background:
+      radial-gradient(1200px 600px at 10% -10%, rgba(46, 229, 157, 0.08), transparent 55%),
+      radial-gradient(900px 500px at 100% 0%, rgba(122, 162, 255, 0.08), transparent 50%),
+      var(--background);
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+  }
+
+  ::selection {
+    background: rgba(46, 229, 157, 0.28);
+  }
+}

@@ -1,0 +1,347 @@
+openapi: 3.1.0
+info:
+  title: Auzy Smart Home API
+  version: 0.1.0
+  description: |
+    Register microcontroller devices (ESP32, NodeMCU, Arduino) and ingest
+    sensor readings over HTTP. Web sessions live in Redis (httpOnly cookie or
+    opaque bearer token). Firmware uses a hashed device API key on
+    `POST /v1/ingest`. On/off commands are queued in Redis and returned on
+    the next ingest (or `GET /v1/commands`). Interactive docs: `/scalar`.
+servers:
+  - url: http://localhost:3001
+    description: Local development
+tags:
+  - name: Auth
+  - name: Rooms
+  - name: Devices
+  - name: Ingest
+  - name: Live
+paths:
+  /health:
+    get:
+      summary: Liveness check
+      responses:
+        "200":
+          description: API is up
+  /v1/auth/register:
+    post:
+      tags: [Auth]
+      summary: Create an account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+            example:
+              name: Thanarat
+              email: you@home.local
+              password: "password12"
+      responses:
+        "201":
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "409":
+          description: Email already registered
+  /v1/auth/login:
+    post:
+      tags: [Auth]
+      summary: Sign in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+            example:
+              email: demo@smarthome.local
+              password: demo1234
+      responses:
+        "200":
+          description: Signed in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid credentials
+  /v1/auth/logout:
+    post:
+      tags: [Auth]
+      summary: End the Redis session and clear the cookie
+      security: [{ bearerAuth: [] }, { cookieAuth: [] }]
+      responses:
+        "200":
+          description: Signed out
+  /v1/me:
+    get:
+      tags: [Auth]
+      security: [{ bearerAuth: [] }, { cookieAuth: [] }]
+      summary: Current user
+      responses:
+        "200":
+          description: Profile
+  /v1/overview:
+    get:
+      tags: [Devices]
+      security: [{ bearerAuth: [] }]
+      summary: Dashboard totals
+      responses:
+        "200":
+          description: Counts and latest activity
+  /v1/rooms:
+    get:
+      tags: [Rooms]
+      security: [{ bearerAuth: [] }]
+      summary: List rooms
+      responses:
+        "200":
+          description: Rooms
+    post:
+      tags: [Rooms]
+      security: [{ bearerAuth: [] }]
+      summary: Create a room
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRoomRequest"
+      responses:
+        "201":
+          description: Room created
+  /v1/devices:
+    get:
+      tags: [Devices]
+      security: [{ bearerAuth: [] }]
+      summary: List registered devices
+      responses:
+        "200":
+          description: Devices with latest reading
+    post:
+      tags: [Devices]
+      security: [{ bearerAuth: [] }]
+      summary: Register a device and issue an API key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDeviceRequest"
+            example:
+              name: Living room climate
+              type: esp32
+              model: ESP32-WROOM-32 + DHT22
+      responses:
+        "201":
+          description: Device created. `apiKey` is shown here and can be regenerated later.
+  /v1/devices/{id}:
+    get:
+      tags: [Devices]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/DeviceId"
+      summary: Device detail
+      responses:
+        "200":
+          description: Device
+        "404":
+          description: Not found
+    patch:
+      tags: [Devices]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/DeviceId"
+      summary: Update device metadata
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDeviceRequest"
+      responses:
+        "200":
+          description: Updated
+    delete:
+      tags: [Devices]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/DeviceId"
+      summary: Remove a device
+      responses:
+        "204":
+          description: Deleted
+  /v1/devices/{id}/regenerate-key:
+    post:
+      tags: [Devices]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/DeviceId"
+      summary: Rotate the device API key
+      responses:
+        "200":
+          description: New key. Old firmware keys stop working immediately.
+  /v1/devices/{id}/readings:
+    get:
+      tags: [Devices]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/DeviceId"
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 200
+            maximum: 1000
+      summary: Recent telemetry
+      responses:
+        "200":
+          description: Readings newest-first
+  /v1/ingest:
+    post:
+      tags: [Ingest]
+      security: [{ deviceKey: [] }]
+      summary: Push sensor readings from firmware
+      description: |
+        ESP32, NodeMCU, and Arduino boards POST JSON here. Authenticate with
+        `X-Api-Key` (preferred) or `Authorization: Bearer <device-api-key>`.
+        Any JSON object of sensor fields is accepted, for example
+        `{ "temperature": 24.5, "humidity": 48 }`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+            examples:
+              climate:
+                value:
+                  temperature: 24.6
+                  humidity: 51
+                  rssi: -62
+              motion:
+                value:
+                  motion: true
+                  battery: 87
+      responses:
+        "202":
+          description: Reading stored, device session refreshed, pending commands returned
+        "401":
+          description: Missing or invalid device key
+  /v1/commands:
+    get:
+      tags: [Ingest]
+      security: [{ deviceKey: [] }]
+      summary: Drain pending on/off commands
+      description: Firmware can poll this instead of waiting for the next ingest.
+      responses:
+        "200":
+          description: Commands removed from the Redis queue
+  /v1/devices/{id}/commands:
+    post:
+      tags: [Devices]
+      security: [{ bearerAuth: [] }, { cookieAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/DeviceId"
+      summary: Queue an on/off command for a device
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action:
+                  type: string
+                  enum: [on, off]
+      responses:
+        "202":
+          description: Queued in Redis
+        "404":
+          description: Not found
+  /v1/stream:
+    get:
+      tags: [Live]
+      security: [{ bearerAuth: [] }]
+      summary: Server-sent events for new readings
+      responses:
+        "200":
+          description: text/event-stream
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: opaque session token stored in Redis
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: auzy_session
+    deviceKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+  parameters:
+    DeviceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [name, email, password]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          type: object
+    CreateRoomRequest:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+    CreateDeviceRequest:
+      type: object
+      required: [name, type]
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [esp32, esp8266, nodemcu, arduino, raspberry-pi, other]
+        roomId:
+          type: string
+          format: uuid
+          nullable: true
+        model:
+          type: string
+        notes:
+          type: string
