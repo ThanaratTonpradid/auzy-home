@@ -14,14 +14,19 @@
           const stored = localStorage.getItem("auzy-theme");
           const theme =
             stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
+          const tones = ["mint", "azure", "ember", "ocean", "slate"];
+          const toneStored = localStorage.getItem("auzy-tone");
+          const tone = tones.includes(toneStored) ? toneStored : "mint";
           const dark =
             theme === "dark" ||
             (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
           document.documentElement.classList.toggle("dark", dark);
           document.documentElement.style.colorScheme = dark ? "dark" : "light";
+          document.documentElement.dataset.tone = tone;
         } catch {
           document.documentElement.classList.add("dark");
           document.documentElement.style.colorScheme = "dark";
+          document.documentElement.dataset.tone = "mint";
         }
       })();
     </script>

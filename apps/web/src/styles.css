@@ -160,6 +160,151 @@
   --scrollbar: #243140;
 }
 
+/* Accent tones — override brand tokens; neutrals stay on light/dark. */
+html[data-tone="azure"] {
+  --primary: #3b6fd4;
+  --primary-foreground: #f4f7fb;
+  --accent: #e8effc;
+  --accent-foreground: #2a4f9e;
+  --ring: #3b6fd4;
+  --chart-1: #3b6fd4;
+  --chart-2: #2ec4b6;
+  --sidebar-primary: #3b6fd4;
+  --sidebar-primary-foreground: #f4f7fb;
+  --sidebar-accent: #e8effc;
+  --sidebar-accent-foreground: #2a4f9e;
+  --sidebar-ring: #3b6fd4;
+  --shadow-glow: 0 0 64px rgba(59, 111, 212, 0.14);
+  --body-glow-a: rgba(59, 111, 212, 0.12);
+  --body-glow-b: rgba(46, 196, 182, 0.08);
+}
+
+html.dark[data-tone="azure"] {
+  --primary: #7aa2ff;
+  --primary-foreground: #07090d;
+  --accent: #1a2533;
+  --accent-foreground: #7aa2ff;
+  --ring: #7aa2ff;
+  --chart-1: #7aa2ff;
+  --chart-2: #2ec4b6;
+  --sidebar-primary: #7aa2ff;
+  --sidebar-primary-foreground: #07090d;
+  --sidebar-accent: #1a2533;
+  --sidebar-accent-foreground: #7aa2ff;
+  --sidebar-ring: #7aa2ff;
+  --shadow-glow: 0 0 80px rgba(122, 162, 255, 0.14);
+  --body-glow-a: rgba(122, 162, 255, 0.1);
+  --body-glow-b: rgba(46, 196, 182, 0.08);
+}
+
+html[data-tone="ember"] {
+  --primary: #d97706;
+  --primary-foreground: #fff8ef;
+  --accent: #fff1df;
+  --accent-foreground: #9a4f05;
+  --ring: #d97706;
+  --chart-1: #d97706;
+  --chart-2: #e05a3c;
+  --sidebar-primary: #d97706;
+  --sidebar-primary-foreground: #fff8ef;
+  --sidebar-accent: #fff1df;
+  --sidebar-accent-foreground: #9a4f05;
+  --sidebar-ring: #d97706;
+  --shadow-glow: 0 0 64px rgba(217, 119, 6, 0.14);
+  --body-glow-a: rgba(217, 119, 6, 0.12);
+  --body-glow-b: rgba(224, 90, 60, 0.08);
+}
+
+html.dark[data-tone="ember"] {
+  --primary: #ffb45a;
+  --primary-foreground: #07090d;
+  --accent: #1a2533;
+  --accent-foreground: #ffb45a;
+  --ring: #ffb45a;
+  --chart-1: #ffb45a;
+  --chart-2: #ff7a59;
+  --sidebar-primary: #ffb45a;
+  --sidebar-primary-foreground: #07090d;
+  --sidebar-accent: #1a2533;
+  --sidebar-accent-foreground: #ffb45a;
+  --sidebar-ring: #ffb45a;
+  --shadow-glow: 0 0 80px rgba(255, 180, 90, 0.14);
+  --body-glow-a: rgba(255, 180, 90, 0.1);
+  --body-glow-b: rgba(255, 122, 89, 0.08);
+}
+
+html[data-tone="ocean"] {
+  --primary: #0d9488;
+  --primary-foreground: #f2fffd;
+  --accent: #ddfaf6;
+  --accent-foreground: #0f766e;
+  --ring: #0d9488;
+  --chart-1: #0d9488;
+  --chart-2: #3b6fd4;
+  --sidebar-primary: #0d9488;
+  --sidebar-primary-foreground: #f2fffd;
+  --sidebar-accent: #ddfaf6;
+  --sidebar-accent-foreground: #0f766e;
+  --sidebar-ring: #0d9488;
+  --shadow-glow: 0 0 64px rgba(13, 148, 136, 0.14);
+  --body-glow-a: rgba(13, 148, 136, 0.12);
+  --body-glow-b: rgba(59, 111, 212, 0.08);
+}
+
+html.dark[data-tone="ocean"] {
+  --primary: #2ec4b6;
+  --primary-foreground: #07090d;
+  --accent: #1a2533;
+  --accent-foreground: #2ec4b6;
+  --ring: #2ec4b6;
+  --chart-1: #2ec4b6;
+  --chart-2: #7aa2ff;
+  --sidebar-primary: #2ec4b6;
+  --sidebar-primary-foreground: #07090d;
+  --sidebar-accent: #1a2533;
+  --sidebar-accent-foreground: #2ec4b6;
+  --sidebar-ring: #2ec4b6;
+  --shadow-glow: 0 0 80px rgba(46, 196, 182, 0.14);
+  --body-glow-a: rgba(46, 196, 182, 0.1);
+  --body-glow-b: rgba(122, 162, 255, 0.08);
+}
+
+html[data-tone="slate"] {
+  --primary: #475569;
+  --primary-foreground: #f8fafc;
+  --accent: #eef2f7;
+  --accent-foreground: #334155;
+  --ring: #475569;
+  --chart-1: #475569;
+  --chart-2: #0d9488;
+  --sidebar-primary: #475569;
+  --sidebar-primary-foreground: #f8fafc;
+  --sidebar-accent: #eef2f7;
+  --sidebar-accent-foreground: #334155;
+  --sidebar-ring: #475569;
+  --shadow-glow: 0 0 64px rgba(71, 85, 105, 0.12);
+  --body-glow-a: rgba(71, 85, 105, 0.1);
+  --body-glow-b: rgba(13, 148, 136, 0.06);
+}
+
+html.dark[data-tone="slate"] {
+  --primary: #94a3b8;
+  --primary-foreground: #07090d;
+  --accent: #1a2533;
+  --accent-foreground: #94a3b8;
+  --ring: #94a3b8;
+  --chart-1: #94a3b8;
+  --chart-2: #2ec4b6;
+  --sidebar-primary: #94a3b8;
+  --sidebar-primary-foreground: #07090d;
+  --sidebar-accent: #1a2533;
+  --sidebar-accent-foreground: #94a3b8;
+  --sidebar-ring: #94a3b8;
+  --shadow-glow: 0 0 80px rgba(148, 163, 184, 0.12);
+  --body-glow-a: rgba(148, 163, 184, 0.08);
+  --body-glow-b: rgba(46, 196, 182, 0.06);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

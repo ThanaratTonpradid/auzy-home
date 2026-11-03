@@ -47,19 +47,19 @@ export function ReadingChart({ readings, field }: { readings: Reading[]; field: 
       <svg viewBox={`0 0 ${width} ${height}`} className="h-56 w-full">
         <defs>
           <linearGradient id={`fill-${field}`} x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="#2ee59d" stopOpacity="0.28" />
-            <stop offset="100%" stopColor="#2ee59d" stopOpacity="0" />
+            <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.28" />
+            <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
           </linearGradient>
         </defs>
         <path d={area} fill={`url(#fill-${field})`} />
-        <path d={path} fill="none" stroke="#5ee0b5" strokeWidth="2.2" />
-        <text x={pad} y={18} fill="#7d8ea3" fontSize="11" fontFamily="ui-monospace">
+        <path d={path} fill="none" stroke="var(--primary)" strokeWidth="2.2" />
+        <text x={pad} y={18} fill="var(--muted-foreground)" fontSize="11" fontFamily="ui-monospace">
           {formatNumber(max, 1)}
         </text>
-        <text x={pad} y={height - 8} fill="#7d8ea3" fontSize="11" fontFamily="ui-monospace">
+        <text x={pad} y={height - 8} fill="var(--muted-foreground)" fontSize="11" fontFamily="ui-monospace">
           {formatTime(series[0]?.t ?? 0)}
         </text>
-        <text x={width - 120} y={height - 8} fill="#7d8ea3" fontSize="11" fontFamily="ui-monospace">
+        <text x={width - 120} y={height - 8} fill="var(--muted-foreground)" fontSize="11" fontFamily="ui-monospace">
           {formatTime(series[series.length - 1]?.t ?? 0)}
         </text>
       </svg>
